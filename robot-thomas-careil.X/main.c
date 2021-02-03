@@ -19,7 +19,8 @@ int main(void) {
      InitTimer1();
      InitTimer23();
      InitPWM();
-     PWMSetSpeed(40,MOTEUR_DROIT);
+     PWMSetSpeed(20,MOTEUR_DROIT);
+     PWMSetSpeed(30,MOTEUR_GAUCHE);
     LED_BLANCHE = 1;
     LED_BLEUE = 1;
     LED_ORANGE = 1;

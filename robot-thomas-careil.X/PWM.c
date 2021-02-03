@@ -3,6 +3,7 @@
 #include "PWM.h"
 #include "Robot.h"
 #include "ToolBox.h"
+#include "timer.h"
 
 #define PWMPER 40.0
 unsigned char acceleration = 20;
@@ -49,7 +50,7 @@ void PWMSetSpeed(float vitesseEnPourcents, int numeroMoteur)
     MOTEUR_GAUCHE_DUTY_CYCLE = Abs(robotState.vitesseGaucheCommandeCourante*PWMPER);
     }
     if(numeroMoteur == MOTEUR_DROIT){
-          if(vitesseEnPourcents > 0){
+          if(vitesseEnPourcents < 0){
 
             MOTEUR_DROIT_L_PWM_ENABLE = 0; //Pilotage de la pin en mode IO
             MOTEUR_DROIT_L_IO_OUTPUT = 1; //Mise à 1 de la pin
