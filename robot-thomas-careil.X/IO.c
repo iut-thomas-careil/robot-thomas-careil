@@ -50,6 +50,8 @@ void InitIO()
 
     _TRISB14 = 0; // Motor1_in1
     _TRISB15 = 0; // Motor1_in2
+    _TRISC6 = 0; // Motor6_in1
+    _TRISC7 = 0; // Motor6_in2
 
     //********** Configuration des entrées : _TRISxx = 1 ********************************   
 

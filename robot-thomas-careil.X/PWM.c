@@ -28,11 +28,41 @@ FCLCON6 = 0x0003; //Désactive la gestion des faults
 PTCONbits.PTEN = 1;
 }
 
-void PWMSetSpeed(float vitesseEnPourcents)
+void PWMSetSpeed(float vitesseEnPourcents, int numeroMoteur)
 {
-robotState.vitesseGaucheCommandeCourante = vitesseEnPourcents;
-MOTEUR_GAUCHE_L_PWM_ENABLE = 0; //Pilotage de la pin en mode IO
-MOTEUR_GAUCHE_L_IO_OUTPUT = 1; //Mise à 1 de la pin
-MOTEUR_GAUCHE_H_PWM_ENABLE = 1; //Pilotage de la pin en mode PWM
-MOTEUR_GAUCHE_DUTY_CYCLE = Abs(robotState.vitesseGaucheCommandeCourante*PWMPER);
+    robotState.vitesseGaucheCommandeCourante = vitesseEnPourcents;
+    if(numeroMoteur == MOTEUR_GAUCHE){
+        if(vitesseEnPourcents > 0){
+
+            MOTEUR_GAUCHE_L_PWM_ENABLE = 0; //Pilotage de la pin en mode IO
+            MOTEUR_GAUCHE_L_IO_OUTPUT = 1; //Mise à 1 de la pin
+            MOTEUR_GAUCHE_H_PWM_ENABLE = 1; //Pilotage de la pin en mode PWM
+            MOTEUR_GAUCHE_H_IO_OUTPUT = 0; //Mise à 1 de la pin
+
+}
+          else{
+               MOTEUR_GAUCHE_L_PWM_ENABLE = 0; //Pilotage de la pin en mode IO
+               MOTEUR_GAUCHE_L_IO_OUTPUT = 0; //Mise à 1 de la pin
+               MOTEUR_GAUCHE_H_PWM_ENABLE = 1; //Pilotage de la pin en mode PWM
+               MOTEUR_GAUCHE_H_IO_OUTPUT = 1; //Mise à 1 de la pin
+}
+    MOTEUR_GAUCHE_DUTY_CYCLE = Abs(robotState.vitesseGaucheCommandeCourante*PWMPER);
+    }
+    if(numeroMoteur == MOTEUR_DROIT){
+          if(vitesseEnPourcents > 0){
+
+            MOTEUR_DROIT_L_PWM_ENABLE = 0; //Pilotage de la pin en mode IO
+            MOTEUR_DROIT_L_IO_OUTPUT = 1; //Mise à 1 de la pin
+            MOTEUR_DROIT_H_PWM_ENABLE = 1; //Pilotage de la pin en mode PWM
+            MOTEUR_DROIT_H_IO_OUTPUT = 0; //Mise à 1 de la pin
+
+}
+           else{
+            MOTEUR_DROIT_L_PWM_ENABLE = 0; //Pilotage de la pin en mode IO
+            MOTEUR_DROIT_L_IO_OUTPUT = 0; //Mise à 1 de la pin
+            MOTEUR_DROIT_H_PWM_ENABLE = 1; //Pilotage de la pin en mode PWM
+            MOTEUR_DROIT_H_IO_OUTPUT = 1; //Mise à 1 de la pin
+}
+    }
+    MOTEUR_DROIT_DUTY_CYCLE = Abs(robotState.vitesseGaucheCommandeCourante*PWMPER);
 }
