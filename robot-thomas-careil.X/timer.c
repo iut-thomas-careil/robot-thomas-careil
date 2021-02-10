@@ -9,6 +9,7 @@
 #include "timer.h"
 #include "IO.h"
 #include "PWM.h"
+#include "ADC.h"
 
 //Initialisation d?un timer 32 bits
 void InitTimer23(void) {
@@ -34,18 +35,18 @@ void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
 IFS0bits.T3IF = 0; // Clear Timer3 Interrupt Flag
 LED_ORANGE = !LED_ORANGE;
 LED_BLEUE = !LED_BLEUE;
-/*if(toggle == 0)
+if(toggle == 0)
 {
-    PWMSetSpeed(20, MOTEUR_DROIT);
-    PWMSetSpeed(20, MOTEUR_GAUCHE);
+    PWMSetSpeedConsigne(20, MOTEUR_DROIT);
+    PWMSetSpeedConsigne(20, MOTEUR_GAUCHE);
     toggle = 1;
 }
 else
 {
-    PWMSetSpeed(-20, MOTEUR_DROIT);
-    PWMSetSpeed(-20, MOTEUR_GAUCHE);
+    PWMSetSpeedConsigne(-20, MOTEUR_DROIT);
+    PWMSetSpeedConsigne(-20, MOTEUR_GAUCHE);
     toggle = 0;
-}*/
+}
 }
 
 //Initialisation d?un timer 16 bits
@@ -53,7 +54,7 @@ void InitTimer1(void)
 {
 //Timer1 pour horodater les mesures (1ms)
 T1CONbits.TON = 0; // Disable Timer
-T1CONbits.TCKPS = 0b11; //Prescaler
+T1CONbits.TCKPS = 0b01; //Prescaler
 //11 = 1:256 prescale value
 //10 = 1:64 prescale value
 //01 = 1:8 prescale value
@@ -71,6 +72,7 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void)
 IFS0bits.T1IF = 0;
 LED_BLANCHE = !LED_BLANCHE;
 PWMUpdateSpeed();
+ADC1StartConversionSequence();
 }
 
 
