@@ -17,21 +17,22 @@ int main(void) {
     /****************************************************************************************************/
     // Configuration des entrées sorties
     /****************************************************************************************************/
-    InitIO();
-     InitTimer1();
-     InitTimer23();
-     InitPWM();
-     
+    InitIO(); 
     LED_BLANCHE = 1;
     LED_BLEUE = 1;
     LED_ORANGE = 1;
+    
+    InitTimer1();
+    InitTimer23();
+    InitPWM();
+   
 
     /****************************************************************************************************/
     // Boucle Principale
     /****************************************************************************************************/
     
     while (1) {
-        if(ADCIsConversionFinished()== 1){
+        if(ADCIsConversionFinished() == 1){
           ADCClearConversionFinishedFlag();
           unsigned int *result = ADCGetResult ( ) ;
           float volts = ((float)result[2]) * 3.3 / 4096 * 3.2;
