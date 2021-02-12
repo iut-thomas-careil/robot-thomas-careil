@@ -4,7 +4,6 @@
 #include "Robot.h"
 #include "ToolBox.h"
 #include "timer.h"
-#include "main.h"
 
 #define PWMPER 40.0
 unsigned char acceleration = 5;
@@ -124,7 +123,7 @@ void PWMSetSpeedConsigne(float vitesseEnPourcents, char moteur)
         robotState.vitesseGaucheConsigne = vitesseEnPourcents;
     }
    if(moteur == MOTEUR_DROIT ){
-       robotState.vitesseDroiteConsigne = -vitesseEnPourcents;
+       robotState.vitesseDroiteConsigne = vitesseEnPourcents;
     }
 
 

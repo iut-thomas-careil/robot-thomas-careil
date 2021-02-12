@@ -1,5 +1,4 @@
-build/default/debug/PWM.o: PWM.c IO.h PWM.h Robot.h ToolBox.h timer.h \
- main.h
+build/default/debug/PWM.o: PWM.c IO.h PWM.h Robot.h ToolBox.h timer.h
 
 IO.h:
 
@@ -10,5 +9,3 @@ Robot.h:
 ToolBox.h:
 
 timer.h:
-
-main.h:
