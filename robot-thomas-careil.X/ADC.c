@@ -53,8 +53,8 @@ AD1CON4bits.ADDMAEN = 0; // DMA is not used
 ANSELCbits.ANSC0 = 1;
 ANSELCbits.ANSC11 = 1;
 ANSELGbits.ANSG9 = 1;
-//ANSELGbits.ANSB1 = 1;
-//ANSELGbits.ANSE15 = 1;
+ANSELBbits.ANSB1 = 1;
+ANSELEbits.ANSE15 = 1;
 
 
 AD1CSSLbits.CSS6=1; // Enable AN6 for scan
