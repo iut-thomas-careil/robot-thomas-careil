@@ -40,14 +40,14 @@ namespace RobotInterface
         }
 
         void SendMessage() {
-            string message = textBoxEmission.Text;
+            string message = textBoxEmission.Text.TrimEnd('\n');
             textBoxReception.Text = textBoxReception.Text + "Recu :" + message + "\n";
             textBoxEmission.Text = "";
         }
 
         private void textBoxEmission_KeyUp(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.Enter )
+            if (e.Key == Key.Enter)
                 SendMessage();
             }
         }

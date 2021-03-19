@@ -10,6 +10,5 @@ C:\GitHub\robot-thomas-careil\C#\RobotInterface\obj\Debug\MainWindow.baml
 C:\GitHub\robot-thomas-careil\C#\RobotInterface\obj\Debug\RobotInterface.g.resources
 C:\GitHub\robot-thomas-careil\C#\RobotInterface\obj\Debug\RobotInterface.Properties.Resources.resources
 C:\GitHub\robot-thomas-careil\C#\RobotInterface\obj\Debug\RobotInterface.csproj.GenerateResource.cache
-C:\GitHub\robot-thomas-careil\C#\RobotInterface\obj\Debug\RobotInterface.csproj.CoreCompileInputs.cache
 C:\GitHub\robot-thomas-careil\C#\RobotInterface\obj\Debug\RobotInterface.exe
 C:\GitHub\robot-thomas-careil\C#\RobotInterface\obj\Debug\RobotInterface.pdb
