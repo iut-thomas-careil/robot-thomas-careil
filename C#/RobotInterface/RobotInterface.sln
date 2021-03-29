@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RobotInterface", "RobotInterface.csproj", "{F8899335-93AE-40AE-AE6E-3BF672C07420}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtendedSerialPort", "..\..\..\..\Users\TP_EO_6\Desktop\ExtendedSerialPort\ExtendedSerialPort.csproj", "{21AC599E-E3D5-4181-AA0F-7C2E00CCA016}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtendedSerialPort", "..\..\..\..\Users\TABLE 6\Downloads\ExtendedSerialPort\ExtendedSerialPort\ExtendedSerialPort.csproj", "{21AC599E-E3D5-4181-AA0F-7C2E00CCA016}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

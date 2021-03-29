@@ -15,3 +15,4 @@ C:\GitHub\robot-thomas-careil\C#\RobotInterface\obj\Debug\RobotInterface.pdb
 C:\GitHub\robot-thomas-careil\C#\RobotInterface\bin\Debug\ExtendedSerialPort.dll
 C:\GitHub\robot-thomas-careil\C#\RobotInterface\bin\Debug\ExtendedSerialPort.pdb
 C:\GitHub\robot-thomas-careil\C#\RobotInterface\obj\Debug\RobotInterface.csproj.CopyComplete
+C:\Github\robot-thomas-careil\C#\RobotInterface\obj\Debug\RobotInterface.csproj.CoreCompileInputs.cache

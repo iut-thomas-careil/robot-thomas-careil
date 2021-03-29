@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace RobotInterface
 {
@@ -26,23 +27,34 @@ namespace RobotInterface
     public partial class MainWindow : Window
     {
         ReliableSerialPort serialPort1;
-
+        
+        Robot robot = new Robot();
         public MainWindow()
         {
             InitializeComponent();
            
-            serialPort1 = new ReliableSerialPort("COM5", 115200, Parity.None, 8,StopBits.One);
+            serialPort1 = new ReliableSerialPort("COM3", 115200, Parity.None, 8,StopBits.One);
             serialPort1.DataReceived += SerialPort1_DataReceived;
             serialPort1.Open();
-            serialPort1 = new ReliableSerialPort("COM5", 115200, Parity.None, 8, StopBits.One);
-            serialPort1.Open();
+            DispatcherTimer timerAffichage;
+            timerAffichage = new DispatcherTimer();
+            timerAffichage.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            timerAffichage.Tick += TimerAffichage_Tick;
+            timerAffichage.Start();
+        }
+
+        private void TimerAffichage_Tick(object sender, EventArgs e)
+        {
+         textBoxReception.Text += robot.receivedText;
+         robot.receivedText = "";
         }
 
         private void SerialPort1_DataReceived(object sender, DataReceivedArgs e)
         {
-            textBoxReception.Text += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
+            robot.receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
+            
         }
-
+        
         bool toggle = false;
 
         private void buttonEnvoyer_Click(object sender, RoutedEventArgs e)
@@ -55,6 +67,19 @@ namespace RobotInterface
             toggle = !toggle;
 
             SendMessage();
+        }
+
+        private void buttonClear_Click(object sender, RoutedEventArgs e)
+        {
+            if (toggle)
+                buttonClear.Background = Brushes.Green;
+            else
+                buttonClear.Background = Brushes.Red;
+
+            toggle = !toggle;
+
+           textBoxReception.Text = "";
+
         }
 
         void SendMessage() {
