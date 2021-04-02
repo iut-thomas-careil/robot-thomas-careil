@@ -27,7 +27,7 @@ namespace RobotInterface
     public partial class MainWindow : Window
     {
         ReliableSerialPort serialPort1;
-        
+        Queue<byte> byteListReceived = new Queue<byte>();
         Robot robot = new Robot();
         public MainWindow()
         {
@@ -52,7 +52,10 @@ namespace RobotInterface
         private void SerialPort1_DataReceived(object sender, DataReceivedArgs e)
         {
             robot.receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
-            
+            foreach (int value in byteListReceived) 
+            { 
+            byteListReceived.Enqueue(value);
+            }
         }
         
         bool toggle = false;
@@ -78,9 +81,22 @@ namespace RobotInterface
 
             toggle = !toggle;
 
-           textBoxReception.Text = "";
-
+            textBoxReception.Text = "";
         }
+         
+        private void buttonTest_Click(object sender, RoutedEventArgs e)
+            {
+                int i;
+                byte[] byteList = new byte[20] ;
+                for(i=0; i<20; i++)
+                  {
+                    byteList[i] = (byte)(2*i);
+                   }
+            serialPort1.Write(byteList,0,byteList.Length);
+            textBoxEmission.Text = "";
+        }
+
+        
 
         void SendMessage() {
             textBoxEmission.Text = textBoxEmission.Text.TrimEnd('\n');
