@@ -8,6 +8,7 @@
 #include "ADC.h"
 #include "Robot.h"
 #include "main.h"
+#include "UART.h"
 
 int main(void) {
     /***************************************************************************************************/
@@ -29,6 +30,7 @@ int main(void) {
     InitTimer4(1000);
     InitPWM();
     InitADC1();
+    InitUART();
     
     robotState.vitesseGaucheCommandeCourante = 0;
     robotState.vitesseDroiteCommandeCourante = 0;
@@ -73,12 +75,16 @@ int main(void) {
             LED_BLEUE = 0;
 
         }
+       // SendMessageDirect ((unsigned char*) "Bonjour" , 7) ;
+        //__delay32 (40000000);
+        
     } // fin main
 }
 
 unsigned char stateRobot;
 unsigned int rdm=0;
 unsigned int v=0;
+
 
 void OperatingSystemLoop(void)
 {
