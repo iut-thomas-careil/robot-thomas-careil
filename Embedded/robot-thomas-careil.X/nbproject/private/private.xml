@@ -5,8 +5,12 @@
         <group>
             <file>file:/C:/Github/robot-thomas-careil/Embedded/robot-thomas-careil.X/UART.c</file>
             <file>file:/C:/Github/robot-thomas-careil/Embedded/robot-thomas-careil.X/UART.h</file>
+            <file>file:/C:/Github/robot-thomas-careil/Embedded/robot-thomas-careil.X/timer.c</file>
             <file>file:/C:/Github/robot-thomas-careil/Embedded/robot-thomas-careil.X/main.c</file>
             <file>file:/C:/Github/robot-thomas-careil/Embedded/robot-thomas-careil.X/IO.c</file>
+            <file>file:/C:/Github/robot-thomas-careil/Embedded/robot-thomas-careil.X/timer.h</file>
+            <file>file:/C:/Github/robot-thomas-careil/Embedded/robot-thomas-careil.X/CB_TX1.c</file>
+            <file>file:/C:/Github/robot-thomas-careil/Embedded/robot-thomas-careil.X/CB_TX1.h</file>
         </group>
     </open-files>
 </project-private>

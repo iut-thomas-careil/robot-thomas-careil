@@ -9,6 +9,7 @@
 #include "Robot.h"
 #include "main.h"
 #include "UART.h"
+#include "CB_TX1.h"
 
 int main(void) {
     /***************************************************************************************************/
@@ -75,9 +76,8 @@ int main(void) {
             LED_BLEUE = 0;
 
         }
-       // SendMessageDirect ((unsigned char*) "Bonjour" , 7) ;
-        //__delay32 (40000000);
-        
+        SendMessage((unsigned char*) "Bonjour" , 7);
+        __delay32(40000000);
     } // fin main
 }
 
