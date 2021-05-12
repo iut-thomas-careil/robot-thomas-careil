@@ -44,13 +44,16 @@ namespace RobotInterface
 
         private void TimerAffichage_Tick(object sender, EventArgs e)
         {
-         int x = 0;
+        
+            int x = 0;
             /*textBoxReception.Text += robot.receivedText;
             robot.receivedText = "";*/
             while (robot.byteListReceived.Count > 0) {
                 byte byteReceived = robot.byteListReceived.Dequeue();
-                string receivedText = "0x" + byteReceived.ToString("X2") + " ";
-                textBoxReception.Text += receivedText;
+                DecodeMessage(byteReceived);
+
+                //string receivedText = "0x" + byteReceived.ToString("X2") + " ";
+                //textBoxReception.Text += receivedText;
             }
         }
 
@@ -90,6 +93,7 @@ namespace RobotInterface
 
         private void buttonTest_Click(object sender, RoutedEventArgs e)
         {
+            
             int i;
             byte[] byteList = new byte[20];
             for (i = 0; i < 20; i++)
@@ -149,6 +153,89 @@ namespace RobotInterface
             }
             trame[5 + i] = CalculateChecksum(msgFunction, msgPayloadLength, msgPayload);
             serialPort1.Write(trame,0,trame.Length);
+        }
+
+        public enum StateReception
+        {
+            Waiting,
+            FunctionMSB,
+            FunctionLSB,
+            PayloadLengthMSB,
+            PayloadLengthLSB,
+            Payload,
+            CheckSum
+        }
+
+        StateReception rcvState = StateReception.Waiting;
+        int msgDecodedFunction = 0;
+        int msgDecodedPayloadLength = 0;
+        byte[] msgDecodedPayload;
+        int msgDecodedPayloadIndex = 0;
+
+        public void DecodeMessage(byte c)
+        {
+            switch (rcvState)
+            {
+                case StateReception.Waiting:
+                    if (c == 0xFE)
+                    {
+                       rcvState = StateReception.FunctionMSB;
+                    }
+                break;
+
+                case StateReception.FunctionMSB:
+                    msgDecodedFunction = (byte)(c << 8);
+                    rcvState = StateReception.FunctionLSB;
+                    break;
+
+                case StateReception.FunctionLSB:
+                    msgDecodedFunction += (byte)(c << 0);
+                    rcvState = StateReception.PayloadLengthMSB;
+                    break;
+
+                case StateReception.PayloadLengthMSB:
+                    msgDecodedPayloadLength = (byte)(c << 8);
+                    rcvState = StateReception.PayloadLengthLSB;
+                    break;
+
+                case StateReception.PayloadLengthLSB:
+                    msgDecodedPayloadLength = (byte)(c << 0);
+                    if (msgDecodedPayloadLength == 0)
+                        rcvState = StateReception.CheckSum;
+                    else if (msgDecodedPayloadLength >= 1024)
+                        rcvState = StateReception.Waiting;
+                    else
+                    {
+                        rcvState = StateReception.Payload;
+                        msgDecodedPayload = new byte[msgDecodedPayloadLength];
+                        msgDecodedPayloadIndex = 0;
+                    }    
+            break;
+
+                case StateReception.Payload:
+                    msgDecodedPayload[msgDecodedPayloadIndex] = c;
+                    msgDecodedPayloadIndex++;
+                    if (msgDecodedPayloadIndex >= msgDecodedPayloadLength)
+                        rcvState = StateReception.CheckSum;
+            break;
+
+                case StateReception.CheckSum:
+                    byte calculatedChecksum = CalculateChecksum(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
+                    if (calculatedChecksum == c)
+                    {
+                     textBoxReception.Text = textBoxReception.Text + "Success, on a un message valide" + "\n";
+                    }
+                    else
+                    {
+                     textBoxReception.Text = textBoxReception.Text + "Sorry ! Try again !" + "\n";
+                    }
+                    rcvState = StateReception.Waiting;
+            break;
+
+            default:
+            rcvState = StateReception.Waiting;
+            break;
+            }
         }
     }
 }
