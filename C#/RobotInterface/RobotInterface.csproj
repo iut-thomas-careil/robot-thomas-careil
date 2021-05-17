@@ -101,5 +101,11 @@
       <Name>ExtendedSerialPort</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="external-content.duckduckgo.com.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="IMG_0721.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

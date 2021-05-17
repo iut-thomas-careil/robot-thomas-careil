@@ -21,16 +21,16 @@ namespace RobotInterface
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
-    /// 
    
-    
     public partial class MainWindow : Window
     {
         ReliableSerialPort serialPort1;
         Robot robot = new Robot();
+        int _windowIndex = 0;
         public MainWindow()
         {
             InitializeComponent();
+           
            
             serialPort1 = new ReliableSerialPort("COM4", 115200, Parity.None, 8,StopBits.One);
             serialPort1.DataReceived += SerialPort1_DataReceived;
@@ -94,14 +94,61 @@ namespace RobotInterface
         private void buttonTest_Click(object sender, RoutedEventArgs e)
         {
             
-            int i;
-            byte[] byteList = new byte[20];
-            for (i = 0; i < 20; i++)
-            {
-                byteList[i] = (byte)(2 * i);
+            //int i;
+            //byte[] byteList = new byte[20];
+            //for (i = 0; i < 20; i++)
+            //{
+            //    byteList[i] = (byte)(2 * i);
+            //}
+            //serialPort1.Write(byteList, 0, byteList.Length);
+
+            string message = "Bonjour";
+            byte[] array = Encoding.ASCII.GetBytes(message);
+            UartEncodeAndSendMessage(0x0080, array.Length, array);
+            textBoxEmission.Text = "";
+
+        }
+
+        private void buttonTestErreur_Click(object sender, RoutedEventArgs e)
+        {
+            string message = "Bonjour";
+            byte[] array = Encoding.ASCII.GetBytes(message);
+            UartEncodeAndSendMessageWithError(0x0080, array.Length, array);
+            textBoxEmission.Text = "";
+        }
+        
+       // void ProcessDecodedMessage (int msgFunction, int msgPayloadLength, byte[] msgPayload)
+//{
+        //    if()
+        //}
+
+
+        int i = 0;
+        private void buttonFond_Click(object sender, RoutedEventArgs e)
+        {
+            if (i%2 == 0) {
+                    _windowIndex++;
+                    Random random = new Random();
+                    SolidColorBrush brush =
+                        new SolidColorBrush(
+                            Color.FromRgb(
+                            (byte)random.Next(255),
+                            (byte)random.Next(255),
+                            (byte)random.Next(255)
+                            ));
+
+                    // Get screen dimensions
+                    int screenWidth = Convert.ToInt16(SystemParameters.PrimaryScreenWidth);
+                    int screenHeight = Convert.ToInt16(SystemParameters.PrimaryScreenHeight);
+
+                    Fenetre.Background = brush;
+                } 
+            else { 
+                SolidColorBrush brush = new SolidColorBrush(Color.FromRgb(255,255,255));
+                Fenetre.Background = brush; 
             }
-            serialPort1.Write(byteList, 0, byteList.Length);
-        }        
+            i = i+1;
+        }
 
         void SendMessage() {
             /*textBoxEmission.Text = textBoxEmission.Text.TrimEnd('\n');
@@ -138,6 +185,10 @@ namespace RobotInterface
             return checkSum;
         }
 
+       
+        
+        
+        
         void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, byte[] msgPayload)
         {
             int i;
@@ -152,6 +203,25 @@ namespace RobotInterface
                 trame[5+i] ^= msgPayload[i];
             }
             trame[5 + i] = CalculateChecksum(msgFunction, msgPayloadLength, msgPayload);
+            serialPort1.Write(trame,0,trame.Length);
+        }
+        
+        
+        void UartEncodeAndSendMessageWithError(int msgFunction, int msgPayloadLength, byte[] msgPayload)
+        {
+            int i;
+            byte[] trame = new byte[6 + msgPayload.Length];
+            trame[0] = 0xFE;
+            trame[1] = (byte)(msgFunction >> 8);
+            trame[2] = (byte)(msgFunction >> 0);
+            trame[3] = (byte)(msgPayloadLength >> 8);
+            trame[4] = (byte)(msgPayloadLength >> 0);
+            for (i = 0; i < msgPayloadLength; i++)
+            {
+                trame[5+i] ^= msgPayload[i];
+            }
+            trame[5 + i] = CalculateChecksum(msgFunction, msgPayloadLength, msgPayload);
+            trame[5 + i]++; //On créée une erreur
             serialPort1.Write(trame,0,trame.Length);
         }
 
@@ -236,6 +306,16 @@ namespace RobotInterface
             rcvState = StateReception.Waiting;
             break;
             }
+        }
+
+        private void textBoxReception_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
