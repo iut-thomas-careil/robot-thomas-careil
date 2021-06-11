@@ -34,7 +34,7 @@ namespace RobotInterface
            
             serialPort1 = new ReliableSerialPort("COM4", 115200, Parity.None, 8,StopBits.One);
             serialPort1.DataReceived += SerialPort1_DataReceived;
-            serialPort1.Open();
+            //serialPort1.Open();
             DispatcherTimer timerAffichage;
             timerAffichage = new DispatcherTimer();
             timerAffichage.Interval = new TimeSpan(0, 0, 0, 0, 100);
@@ -179,9 +179,9 @@ namespace RobotInterface
                 case StateReception.Waiting:
                     if (c == 0xFE)
                     {
-                       rcvState = StateReception.FunctionMSB;
+                        rcvState = StateReception.FunctionMSB;
                     }
-                break;
+                    break;
 
                 case StateReception.FunctionMSB:
                     msgDecodedFunction = (byte)(c << 8);
@@ -209,36 +209,50 @@ namespace RobotInterface
                         rcvState = StateReception.Payload;
                         msgDecodedPayload = new byte[msgDecodedPayloadLength];
                         msgDecodedPayloadIndex = 0;
-                    }    
-            break;
+                    }
+                    break;
 
                 case StateReception.Payload:
                     msgDecodedPayload[msgDecodedPayloadIndex] = c;
                     msgDecodedPayloadIndex++;
                     if (msgDecodedPayloadIndex >= msgDecodedPayloadLength)
                         rcvState = StateReception.CheckSum;
-            break;
+                    break;
 
                 case StateReception.CheckSum:
                     byte calculatedChecksum = CalculateChecksum(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
                     if (calculatedChecksum == c)
                     {
-                     textBoxReception.Text = textBoxReception.Text + "Success, on a un message valide" + "\n";
+                        textBoxReception.Text = textBoxReception.Text + "Success, on a un message valide" + "\n";
                     }
                     else
                     {
-                     textBoxReception.Text = textBoxReception.Text + "Sorry ! Try again !" + "\n";
+                        textBoxReception.Text = textBoxReception.Text + "Sorry ! Try again !" + "\n";
                     }
                     rcvState = StateReception.Waiting;
-            break;
+                    break;
 
-            default:
-            rcvState = StateReception.Waiting;
-            break;
+                default:
+                    rcvState = StateReception.Waiting;
+                    break;
             }
         }
+
+            public enum commande: int {
+            Texte=0x0080,
+            Led=0x0020,
+            DistanceTelemetre=0x0030,
+            ConsigneVitesse=0x0040,
+
+        }
+            void ProcessDecodedMessage(int msgFunction, int msgPayloadLength, byte[ ] msgPayload) {
+            
+            
+            }
+
+        }
     }
-}
+
 
   
 
